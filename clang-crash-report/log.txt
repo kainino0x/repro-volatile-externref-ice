@@ -1,0 +1,88 @@
+emcc -o index.html main.cpp -mreference-types -O3 -g2 -v
+ /Users/kainino/sources/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/Users/kainino/src/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -mreference-types -O3 -g0 -v main.cpp -c -o /var/folders/9r/bp_5c83j6rb8ntvt0xhlsgr800cf_d/T/emscripten_temp_1hzc_f_y/main_0.o
+clang version 18.0.0git (https://github.com/llvm/llvm-project fa6025e25b5754e8cf39169e3a7085b57ea35de5)
+Target: wasm32-unknown-emscripten
+Thread model: posix
+InstalledDir: /Users/kainino/sources/emsdk/upstream/bin
+ (in-process)
+ "/Users/kainino/sources/emsdk/upstream/bin/clang-18" -cc1 -triple wasm32-unknown-emscripten -emit-obj -disable-free -clear-ast-before-backend -main-file-name main.cpp -mrelocation-model static -mframe-pointer=none -ffp-contract=on -fno-rounding-math -mconstructor-aliases -target-cpu generic -target-feature +reference-types -debugger-tuning=gdb -fdebug-compilation-dir=/Users/kainino/src/emscripten/repro-volatile-externref-ice -v -fcoverage-compilation-dir=/Users/kainino/src/emscripten/repro-volatile-externref-ice -resource-dir /Users/kainino/sources/emsdk/upstream/lib/clang/18 -D EMSCRIPTEN -isysroot /Users/kainino/src/emscripten/cache/sysroot -internal-isystem /Users/kainino/src/emscripten/cache/sysroot/include/wasm32-emscripten/c++/v1 -internal-isystem /Users/kainino/src/emscripten/cache/sysroot/include/c++/v1 -internal-isystem /Users/kainino/sources/emsdk/upstream/lib/clang/18/include -internal-isystem /Users/kainino/src/emscripten/cache/sysroot/include/wasm32-emscripten -internal-isystem /Users/kainino/src/emscripten/cache/sysroot/include -O3 -Werror=implicit-function-declaration -fdeprecated-macro -ferror-limit 19 -fvisibility=default -fgnuc-version=4.2.1 -fcxx-exceptions -fignore-exceptions -fexceptions -vectorize-loops -vectorize-slp -iwithsysroot/include/fakesdl -iwithsysroot/include/compat -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr -o /var/folders/9r/bp_5c83j6rb8ntvt0xhlsgr800cf_d/T/emscripten_temp_1hzc_f_y/main_0.o -x c++ main.cpp
+clang -cc1 version 18.0.0git based upon LLVM 18.0.0git default target x86_64-apple-darwin23.2.0
+ignoring nonexistent directory "/Users/kainino/src/emscripten/cache/sysroot/include/wasm32-emscripten/c++/v1"
+ignoring nonexistent directory "/Users/kainino/src/emscripten/cache/sysroot/include/wasm32-emscripten"
+#include "..." search starts here:
+#include <...> search starts here:
+ /Users/kainino/src/emscripten/cache/sysroot/include/fakesdl
+ /Users/kainino/src/emscripten/cache/sysroot/include/compat
+ /Users/kainino/src/emscripten/cache/sysroot/include/c++/v1
+ /Users/kainino/sources/emsdk/upstream/lib/clang/18/include
+ /Users/kainino/src/emscripten/cache/sysroot/include
+End of search list.
+fatal error: error in backend: Cannot select: t11: ch = store<(volatile store (s0) into %ir.x, !tbaa !5)> t0, t4, TargetFrameIndex:i32<0>, undef:i32
+  t4: externref = llvm.wasm.ref.null.extern TargetConstant:i32<12084>
+    t3: i32 = TargetConstant<12084>
+  t1: i32 = TargetFrameIndex<0>
+  t7: i32 = undef
+In function: __original_main
+PLEASE submit a bug report to https://github.com/llvm/llvm-project/issues/ and include the crash backtrace, preprocessed source, and associated run script.
+Stack dump:
+0.	Program arguments: /Users/kainino/sources/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/Users/kainino/src/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -mreference-types -O3 -g0 -v main.cpp -c -o /var/folders/9r/bp_5c83j6rb8ntvt0xhlsgr800cf_d/T/emscripten_temp_1hzc_f_y/main_0.o
+1.	<eof> parser at end of file
+2.	Code generation
+3.	Running pass 'Function Pass Manager' on module 'main.cpp'.
+4.	Running pass 'WebAssembly Instruction Selection' on function '@__original_main'
+ #0 0x000000011bb51508 llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0x17b508)
+ #1 0x000000011bb4f2f9 llvm::sys::RunSignalHandlers() (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0x1792f9)
+ #2 0x000000011bb50a30 llvm::sys::CleanupOnSignal(unsigned long) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0x17aa30)
+ #3 0x000000011ba8295e (anonymous namespace)::CrashRecoveryContextImpl::HandleCrash(int, unsigned long) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0xac95e)
+ #4 0x000000011ba828e3 llvm::CrashRecoveryContext::HandleExit(int) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0xac8e3)
+ #5 0x000000011bb4b9ac llvm::sys::Process::Exit(int, bool) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0x1759ac)
+ #6 0x000000010090b2e7 LLVMErrorHandler(void*, char const*, bool) (/Users/kainino/sources/emsdk/upstream/bin/clang-18+0x1000092e7)
+ #7 0x000000011ba95339 llvm::report_fatal_error(llvm::Twine const&, bool) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0xbf339)
+ #8 0x000000011c6af836 llvm::SelectionDAGISel::CannotYetSelect(llvm::SDNode*) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0xcd9836)
+ #9 0x000000011c6ae0a2 llvm::SelectionDAGISel::SelectCodeCommon(llvm::SDNode*, unsigned char const*, unsigned int) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0xcd80a2)
+#10 0x000000011e0ca60c (anonymous namespace)::WebAssemblyDAGToDAGISel::Select(llvm::SDNode*) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0x26f460c)
+#11 0x000000011c6a323c llvm::SelectionDAGISel::DoInstructionSelection() (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0xccd23c)
+#12 0x000000011c6a20aa llvm::SelectionDAGISel::CodeGenAndEmitDAG() (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0xccc0aa)
+#13 0x000000011c69fca9 llvm::SelectionDAGISel::SelectAllBasicBlocks(llvm::Function const&) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0xcc9ca9)
+#14 0x000000011c69cc56 llvm::SelectionDAGISel::runOnMachineFunction(llvm::MachineFunction&) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0xcc6c56)
+#15 0x000000011c0722f9 llvm::MachineFunctionPass::runOnFunction(llvm::Function&) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0x69c2f9)
+#16 0x000000011bd0cce1 llvm::FPPassManager::runOnFunction(llvm::Function&) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0x336ce1)
+#17 0x000000011bd15634 llvm::FPPassManager::runOnModule(llvm::Module&) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0x33f634)
+#18 0x000000011bd0d861 llvm::legacy::PassManagerImpl::run(llvm::Module&) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0x337861)
+#19 0x000000010ecd12f2 clang::EmitBackendOutput(clang::DiagnosticsEngine&, clang::HeaderSearchOptions const&, clang::CodeGenOptions const&, clang::TargetOptions const&, clang::LangOptions const&, llvm::StringRef, llvm::Module*, clang::BackendAction, llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem>, std::__2::unique_ptr<llvm::raw_pwrite_stream, std::__2::default_delete<llvm::raw_pwrite_stream>>, clang::BackendConsumer*) (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x16542f2)
+#20 0x000000010f12355e clang::BackendConsumer::HandleTranslationUnit(clang::ASTContext&) (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x1aa655e)
+#21 0x000000010d869646 clang::ParseAST(clang::Sema&, bool, bool) (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x1ec646)
+#22 0x000000010f94ff13 clang::FrontendAction::Execute() (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x22d2f13)
+#23 0x000000010f8bdddd clang::CompilerInstance::ExecuteAction(clang::FrontendAction&) (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x2240ddd)
+#24 0x000000010f9dec21 clang::ExecuteCompilerInvocation(clang::CompilerInstance*) (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x2361c21)
+#25 0x000000010090a0c6 cc1_main(llvm::ArrayRef<char const*>, char const*, void*) (/Users/kainino/sources/emsdk/upstream/bin/clang-18+0x1000080c6)
+#26 0x000000010090796d ExecuteCC1Tool(llvm::SmallVectorImpl<char const*>&, llvm::ToolContext const&) (/Users/kainino/sources/emsdk/upstream/bin/clang-18+0x10000596d)
+#27 0x000000010f515f0e void llvm::function_ref<void ()>::callback_fn<clang::driver::CC1Command::Execute(llvm::ArrayRef<std::__2::optional<llvm::StringRef>>, std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>*, bool*) const::$_0>(long) (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x1e98f0e)
+#28 0x000000011ba828a2 llvm::CrashRecoveryContext::RunSafely(llvm::function_ref<void ()>) (/Users/kainino/sources/emsdk/upstream/lib/libLLVM.dylib+0xac8a2)
+#29 0x000000010f515699 clang::driver::CC1Command::Execute(llvm::ArrayRef<std::__2::optional<llvm::StringRef>>, std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>*, bool*) const (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x1e98699)
+#30 0x000000010f4d0ce2 clang::driver::Compilation::ExecuteCommand(clang::driver::Command const&, clang::driver::Command const*&, bool) const (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x1e53ce2)
+#31 0x000000010f4d126f clang::driver::Compilation::ExecuteJobs(clang::driver::JobList const&, llvm::SmallVectorImpl<std::__2::pair<int, clang::driver::Command const*>>&, bool) const (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x1e5426f)
+#32 0x000000010f4f4160 clang::driver::Driver::ExecuteCompilation(clang::driver::Compilation&, llvm::SmallVectorImpl<std::__2::pair<int, clang::driver::Command const*>>&) (/Users/kainino/sources/emsdk/upstream/lib/libclang-cpp.dylib+0x1e77160)
+#33 0x0000000100906b3a clang_main(int, char**, llvm::ToolContext const&) (/Users/kainino/sources/emsdk/upstream/bin/clang-18+0x100004b3a)
+#34 0x0000000100916950 main (/Users/kainino/sources/emsdk/upstream/bin/clang-18+0x100014950)
+#35 0x00000002009ed386 
+clang: error: clang frontend command failed with exit code 70 (use -v to see invocation)
+clang version 18.0.0git (https://github.com/llvm/llvm-project fa6025e25b5754e8cf39169e3a7085b57ea35de5)
+Target: wasm32-unknown-emscripten
+Thread model: posix
+InstalledDir: /Users/kainino/sources/emsdk/upstream/bin
+clang: note: diagnostic msg: 
+********************
+
+PLEASE ATTACH THE FOLLOWING FILES TO THE BUG REPORT:
+Preprocessed source(s) and associated run script(s) are located at:
+clang: note: diagnostic msg: /var/folders/9r/bp_5c83j6rb8ntvt0xhlsgr800cf_d/T/main-28fca8.cpp
+clang: note: diagnostic msg: /var/folders/9r/bp_5c83j6rb8ntvt0xhlsgr800cf_d/T/main-28fca8.sh
+clang: note: diagnostic msg: Crash backtrace is located in
+clang: note: diagnostic msg: /Users/kainino/Library/Logs/DiagnosticReports/clang-18_<YYYY-MM-DD-HHMMSS>_<hostname>.crash
+clang: note: diagnostic msg: (choose the .crash file that corresponds to your crash)
+clang: note: diagnostic msg: 
+
+********************
+emcc: error: '/Users/kainino/sources/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/Users/kainino/src/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -mreference-types -O3 -g0 -v main.cpp -c -o /var/folders/9r/bp_5c83j6rb8ntvt0xhlsgr800cf_d/T/emscripten_temp_1hzc_f_y/main_0.o' failed (returned 1)
+make: *** [index.html] Error 1
